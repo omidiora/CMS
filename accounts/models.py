@@ -48,3 +48,8 @@ class Order(models.Model):
     status=models.CharField(max_length=200,choices=STATUS)
     date_created=models.DateTimeField(auto_now_add=True)
 
+    
+
+    
+     
+
