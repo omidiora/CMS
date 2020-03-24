@@ -2,7 +2,28 @@ from django.shortcuts import render,redirect
 from django.forms import inlineformset_factory
 from django.http import HttpResponse
 from .models import *
-from .forms import OrderForm
+from .forms import OrderForm,CreateUserForm
+from .filters  import  OrderFilter
+from django.contrib.auth.forms import UserCreationForm
+
+def registerpage(request):
+    form =CreateUserForm()
+    if request.method=='POST':
+        form=CreateUserForm(request.POST)
+        if form.is_valid():
+             form.save()
+
+
+      
+    context={'form':form}
+    return render(request,'accounts/register.html',context)
+
+
+def loginpage(request):
+    context={}
+    return render(request,'accounts/login.html',context)
+
+
 
 def home(request):
     orders=Order.objects.all()
@@ -26,8 +47,10 @@ def customer(request,pk_test):
     customer=Customer.objects.get(id=pk_test) 
     orders=customer.order_set.all() 
     order_count=orders.count()
+    myfilter=OrderFilter(request.GET,queryset=orders)
+    orders=myfilter.qs
 
-    context={'customer':customer,'orders':orders,'order_count':order_count}
+    context={'customer':customer,'orders':orders,'order_count':order_count,'myfilter':myfilter}
     return render(request,'accounts/customer.html',context)
 
 
