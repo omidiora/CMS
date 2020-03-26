@@ -5,9 +5,12 @@ urlpatterns = [
     
     path('register',views.registerpage,name='register'),
     path('login',views.loginpage,name='login'),
-    path('login',views.logoutuser,name='logout'),
+    path('logout',views.logoutuser,name='logout'),
 
-    path('',views .home ,name='home'),
+    path('',views.home ,name='home'),
+    
+    path('user/',views.userpage,name='user-page'),
+
     path('product',views.products,name='products'),
     path('customer/<str:pk_test>/',views.customer,name="customer") ,
     path('createorder/<str:pk>/',views.createorder,name="createorder"),
