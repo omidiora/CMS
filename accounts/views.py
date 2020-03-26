@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.forms import inlineformset_factory
 from django.http import HttpResponse
 from .models import *
-from .forms import OrderForm,CreateUserForm
+from .forms import OrderForm,CreateUserForm,CustomerForm
 from .filters  import  OrderFilter
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -111,6 +111,26 @@ def updateorder(request,pk):
             return redirect('/')
     context={'form':form}
     return render(request,'accounts/order_form.html',context)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['customer'])
+def accountsettings(request):
+    customer=request.user.customer
+    form=CustomerForm(instance=customer)
+    if request.method=='POST':
+        form=CustomerForm(request.POST,request.FILES,instance=customer)
+        if form.is_valid():
+            form.save()
+    context={'form':form}
+    return render(request,'accounts/account_settings.html',context)
+
+
+
+
+
+
+
 
 
 @login_required(login_url='login')

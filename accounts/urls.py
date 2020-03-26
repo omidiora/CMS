@@ -11,6 +11,8 @@ urlpatterns = [
     
     path('user/',views.userpage,name='user-page'),
 
+    path('account/',views.accountsettings,name='user-page'),
+
     path('product',views.products,name='products'),
     path('customer/<str:pk_test>/',views.customer,name="customer") ,
     path('createorder/<str:pk>/',views.createorder,name="createorder"),
